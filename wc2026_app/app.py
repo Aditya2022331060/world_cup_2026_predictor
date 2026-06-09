@@ -408,17 +408,32 @@ def load_and_train():
 # ─────────────────────────────────────────────────────────────────
 # TEAM CONSTANTS
 # ─────────────────────────────────────────────────────────────────
-# WC 2026 teams (shown first in dropdown)
+# WC 2026 teams — all 48 confirmed (no more placeholder names)
 _WC_TEAMS_CORE = [
-    "Algeria","Argentina","Australia","Austria","Belgium","Brazil",
-    "Cabo Verde","Canada","Colombia","Croatia","Curaçao","Côte d'Ivoire",
-    "Ecuador","Egypt","England","FIFA Playoff 1","FIFA Playoff 2",
-    "France","Germany","Ghana","Haiti","Iran","Japan","Jordan",
-    "Mexico","Morocco","Netherlands","New Zealand","Norway","Panama",
-    "Paraguay","Portugal","Qatar","Saudi Arabia","Scotland","Senegal",
-    "South Africa","South Korea","Spain","Switzerland","Tunisia",
-    "UEFA Playoff A","UEFA Playoff B","UEFA Playoff C","UEFA Playoff D",
-    "Uruguay","USA","Uzbekistan",
+    # Group A
+    "Mexico","South Africa","South Korea","Czechia",
+    # Group B
+    "Canada","Switzerland","Qatar","Bosnia and Herzegovina",
+    # Group C
+    "Brazil","Morocco","Haiti","Scotland",
+    # Group D
+    "USA","Paraguay","Australia","Türkiye",
+    # Group E
+    "Germany","Curaçao","Côte d'Ivoire","Ecuador",
+    # Group F
+    "Netherlands","Japan","Sweden","Tunisia",
+    # Group G
+    "Belgium","Egypt","Iran","New Zealand",
+    # Group H
+    "Spain","Cabo Verde","Saudi Arabia","Uruguay",
+    # Group I
+    "France","Senegal","Norway","Iraq",
+    # Group J
+    "Argentina","Algeria","Austria","Jordan",
+    # Group K
+    "Portugal","DR Congo","Uzbekistan","Colombia",
+    # Group L
+    "England","Croatia","Ghana","Panama",
 ]
 
 # All FIFA + other international nations (for friendly match predictor)
@@ -464,13 +479,19 @@ _wc_set = set(_WC_TEAMS_CORE)
 _extra = [t for t in sorted(_ALL_NATIONS) if t not in _wc_set and t != "USA"]
 WC_TEAMS = _WC_TEAMS_CORE + ["────────────────"] + _extra
 
-NAME_MAP = {"USA": "United States", "Cabo Verde": "Cape Verde", "Ivory Coast": "Côte d'Ivoire"}
-
-PLAYOFF_ELO = {
-    "UEFA Playoff A": 1820, "UEFA Playoff B": 1810,
-    "UEFA Playoff C": 1810, "UEFA Playoff D": 1810,
-    "FIFA Playoff 1": 1720, "FIFA Playoff 2": 1720,
+NAME_MAP = {
+    # App name → dataset name
+    "USA":                      "United States",
+    "Cabo Verde":               "Cape Verde",
+    "Côte d'Ivoire":            "Ivory Coast",
+    "Ivory Coast":              "Ivory Coast",
+    "Czechia":                  "Czech Republic",
+    "Türkiye":                  "Turkey",
+    "Bosnia and Herzegovina":   "Bosnia and Herzegovina",  # already correct in dataset
+    "DR Congo":                 "DR Congo",                # already correct in dataset
 }
+
+PLAYOFF_ELO = {}  # No more placeholder teams
 
 FLAG_MAP = {
     "Algeria":"🇩🇿","Argentina":"🇦🇷","Australia":"🇦🇺","Austria":"🇦🇹",
@@ -483,9 +504,10 @@ FLAG_MAP = {
     "Paraguay":"🇵🇾","Portugal":"🇵🇹","Qatar":"🇶🇦","Saudi Arabia":"🇸🇦",
     "Scotland":"🏴󠁧󠁢󠁳󠁣󠁴󠁿","Senegal":"🇸🇳","South Africa":"🇿🇦",
     "South Korea":"🇰🇷","Spain":"🇪🇸","Switzerland":"🇨🇭","Tunisia":"🇹🇳",
-    "UEFA Playoff A":"🏴","UEFA Playoff B":"🏴","UEFA Playoff C":"🏴",
-    "UEFA Playoff D":"🏴","FIFA Playoff 1":"🏴","FIFA Playoff 2":"🏴",
     "Uruguay":"🇺🇾","USA":"🇺🇸","United States":"🇺🇸","Uzbekistan":"🇺🇿",
+    # New confirmed 2026 WC playoff winners
+    "Bosnia and Herzegovina":"🇧🇦","Sweden":"🇸🇪","Türkiye":"🇹🇷","Turkey":"🇹🇷",
+    "Czechia":"🇨🇿","Czech Republic":"🇨🇿","Iraq":"🇮🇶","DR Congo":"🇨🇩",
     # Extended nations
     "Afghanistan":"🇦🇫","Albania":"🇦🇱","American Samoa":"🇦🇸","Andorra":"🇦🇩",
     "Angola":"🇦🇴","Antigua and Barbuda":"🇦🇬","Armenia":"🇦🇲","Aruba":"🇦🇼",
@@ -634,11 +656,16 @@ def predict_match(home, away, elo, attack, defense, form, LAH, LAA, is_knockout=
 # ─────────────────────────────────────────────────────────────────
 @st.cache_data(show_spinner="Running full tournament simulation…")
 def run_full_predictions(_elo, _attack, _defense, _form, LAH, LAA):
-    REPO_RAW = "https://raw.githubusercontent.com/Aditya2022331060/world_cup_2026_predictor/main"
-    try:
-        group_fixtures    = pd.read_csv(f"{REPO_RAW}/group_match.csv")
-        knockout_fixtures = pd.read_csv(f"{REPO_RAW}/knokout_match.csv")
-    except Exception:
+    group_fixtures = knockout_fixtures = None
+    for branch in ["main", "master"]:
+        try:
+            REPO_RAW = f"https://raw.githubusercontent.com/Aditya2022331060/world_cup_2026_predictor/{branch}"
+            group_fixtures    = pd.read_csv(f"{REPO_RAW}/group_match.csv")
+            knockout_fixtures = pd.read_csv(f"{REPO_RAW}/knokout_match.csv")
+            break
+        except Exception:
+            continue
+    if group_fixtures is None:
         try:
             group_fixtures    = pd.read_csv("group_match.csv")
             knockout_fixtures = pd.read_csv("knokout_match.csv")
