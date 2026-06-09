@@ -971,23 +971,23 @@ with tab3:
         <table style="width:100%; border-collapse:collapse; font-size:0.9rem; margin-top:1.5rem;">
           <tr style="border-bottom:1px solid var(--panel-border)">
             <td style="padding:1rem 0.5rem; color:var(--wc-cyan); font-weight:700; width:180px; font-family:'Space Grotesk',sans-serif;">Elo Tracking</td>
-            <td style="padding:1rem 0.5rem; color:var(--text-muted)">Evaluated from historical data. Applies specialized structural weights reflecting tournament prominence alongside scale metrics matching match point adjustments.</td>
+            <td style="padding:1rem 0.5rem; color:var(--text-muted)">Evaluated from historical data with tournament-weighted adjustments</td>
           </tr>
           <tr style="border-bottom:1px solid var(--panel-border)">
             <td style="padding:1rem 0.5rem; color:var(--wc-cyan); font-weight:700; font-family:'Space Grotesk',sans-serif;">Poisson Distribution</td>
-            <td style="padding:1rem 0.5rem; color:var(--text-muted)">Cross-references calculated operational attack metrics against defense thresholds to forecast target probabilities based on World Cup specific neutral constants.</td>
+            <td style="padding:1rem 0.5rem; color:var(--text-muted)">Attack/defense metrics predict goal probabilities using WC-specific constants</td>
           </tr>
           <tr style="border-bottom:1px solid var(--panel-border)">
             <td style="padding:1rem 0.5rem; color:var(--wc-cyan); font-weight:700; font-family:'Space Grotesk',sans-serif;">Dixon-Coles Setting</td>
-            <td style="padding:1rem 0.5rem; color:var(--text-muted)">Compensates for standard distribution variations in low-scoring scenarios by scaling joint matrix configurations (rho = -0.10).</td>
+            <td style="padding:1rem 0.5rem; color:var(--text-muted)">Compensates for low-scoring variations (rho = -0.10 correction factor)</td>
           </tr>
           <tr style="border-bottom:1px solid var(--panel-border)">
             <td style="padding:1rem 0.5rem; color:var(--wc-cyan); font-weight:700; font-family:'Space Grotesk',sans-serif;">Time Decay Scaling</td>
-            <td style="padding:1rem 0.5rem; color:var(--text-muted)">Implements exponential reduction models (lambda = 0.003 / day) targeting historical importance data to prioritize immediate match tracking.</td>
+            <td style="padding:1rem 0.5rem; color:var(--text-muted)">Exponential decay (λ = 0.003/day) prioritizing recent matches</td>
           </tr>
-          <tr>
+          <tr style="border-bottom:1px solid var(--panel-border)">
             <td style="padding:1rem 0.5rem; color:var(--wc-cyan); font-weight:700; font-family:'Space Grotesk',sans-serif;">Form Adjustments</td>
-            <td style="padding:1rem 0.5rem; color:var(--text-muted)">Integrates final structural performance markers across consecutive fixtures while aligning secondary game parameters against championship benchmark data.</td>
+            <td style="padding:1rem 0.5rem; color:var(--text-muted)">Last 5 matches form integrated into final predictions</td>
           </tr>
         </table>
 
@@ -998,7 +998,6 @@ with tab3:
         </p>
     </div>
     """, unsafe_allow_html=True)
-
 
 # ─────────────────────────────────────────────────────────────────
 # FOOTER — Flexbox Profile Card
