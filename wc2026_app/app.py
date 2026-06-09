@@ -763,7 +763,6 @@ def score_matrix_html(pm, max_show=5):
 # ─────────────────────────────────────────────────────────────────
 # APP LAYOUT
 # ─────────────────────────────────────────────────────────────────
-# HERO - Redesigned with custom Flexbox container and 2026 dynamic theme colors
 st.markdown("""
 <div class="hero-container">
   <div class="hero-flex">
@@ -839,7 +838,6 @@ with tab1:
         flag_h = FLAG_MAP.get(pred_home, "🏳")
         flag_a = FLAG_MAP.get(pred_away, "🏳")
 
-        # Re-engineered clean Flexbox score view layout
         st.markdown(f"""
         <div class="score-flex-wrapper">
             <div class="team-card">
@@ -871,7 +869,6 @@ with tab1:
             banner_txt = "🎯 Outcome Prediction: Match Draw"
         st.markdown(f'<div class="winner-banner {banner_cls}">{banner_txt}</div>', unsafe_allow_html=True)
 
-        # Refined pills flexbox row
         st.markdown(f"""
         <div class="pills-container">
           <div class="metric-pill"><span class="metric-pill-val">{res['corners']}</span><span class="metric-pill-lbl">Est. Corners</span></div>
@@ -982,11 +979,11 @@ with tab3:
           </tr>
           <tr style="border-bottom:1px solid var(--panel-border)">
             <td style="padding:1rem 0.5rem; color:var(--wc-cyan); font-weight:700; font-family:'Space Grotesk',sans-serif;">Dixon-Coles Setting</td>
-            <td style="padding:1rem 0.5rem; color:var(--text-muted)">Compensates for standard distribution variations in low-scoring scenarios by scaling joint matrix configurations ($\rho = -0.10$).</td>
+            <td style="padding:1rem 0.5rem; color:var(--text-muted)">Compensates for standard distribution variations in low-scoring scenarios by scaling joint matrix configurations (rho = -0.10).</td>
           </tr>
           <tr style="border-bottom:1px solid var(--panel-border)">
             <td style="padding:1rem 0.5rem; color:var(--wc-cyan); font-weight:700; font-family:'Space Grotesk',sans-serif;">Time Decay Scaling</td>
-            <td style="padding:1rem 0.5rem; color:var(--text-muted)">Implements exponential reduction models ($\lambda = 0.003/\text{day}$) targeting historical importance data to prioritize immediate match tracking.</td>
+            <td style="padding:1rem 0.5rem; color:var(--text-muted)">Implements exponential reduction models (lambda = 0.003 / day) targeting historical importance data to prioritize immediate match tracking.</td>
           </tr>
           <tr>
             <td style="padding:1rem 0.5rem; color:var(--wc-cyan); font-weight:700; font-family:'Space Grotesk',sans-serif;">Form Adjustments</td>
@@ -1003,9 +1000,9 @@ with tab3:
     """, unsafe_allow_html=True)
 
 
-# ═══════════════════════════════════════════════════════════════════
+# ─────────────────────────────────────────────────────────────────
 # FOOTER — Flexbox Profile Card
-# ═══════════════════════════════════════════════════════════════════
+# ─────────────────────────────────────────────────────────────────
 st.markdown("""
 <div style="margin-top:5rem; padding-top:2rem; border-top:1px solid var(--panel-border);
      display:flex; align-items:center; justify-content:center; gap:1rem;">
