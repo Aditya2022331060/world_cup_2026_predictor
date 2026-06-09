@@ -59,7 +59,7 @@ html, body, [class*="css"] {
 
 /* ── hero header ── */
 .hero {
-    background: linear-gradient(135deg, var(--pitch) 0%, #001a0a 100%);
+    background: linear-gradient(135deg, #0a3d1f 0%, #001a0a 60%, #0a1830 100%);
     border: 1px solid var(--border);
     border-radius: 16px;
     padding: 2.5rem 3rem;
@@ -74,8 +74,18 @@ html, body, [class*="css"] {
         90deg,
         transparent, transparent 60px,
         rgba(255,255,255,0.015) 60px, rgba(255,255,255,0.015) 61px
+    ),
+    repeating-linear-gradient(
+        0deg,
+        transparent, transparent 60px,
+        rgba(255,255,255,0.008) 60px, rgba(255,255,255,0.008) 61px
     );
     pointer-events: none;
+}
+.hero::after {
+    content: '⚽';
+    position: absolute; right: 2.5rem; top: 50%; transform: translateY(-50%);
+    font-size: 5rem; opacity: 0.06; pointer-events: none;
 }
 .hero-title {
     font-family: 'Bebas Neue', sans-serif !important;
@@ -398,7 +408,8 @@ def load_and_train():
 # ─────────────────────────────────────────────────────────────────
 # TEAM CONSTANTS
 # ─────────────────────────────────────────────────────────────────
-WC_TEAMS = [
+# WC 2026 teams (shown first in dropdown)
+_WC_TEAMS_CORE = [
     "Algeria","Argentina","Australia","Austria","Belgium","Brazil",
     "Cabo Verde","Canada","Colombia","Croatia","Curaçao","Côte d'Ivoire",
     "Ecuador","Egypt","England","FIFA Playoff 1","FIFA Playoff 2",
@@ -410,7 +421,50 @@ WC_TEAMS = [
     "Uruguay","USA","Uzbekistan",
 ]
 
-NAME_MAP = {"USA": "United States"}
+# All FIFA + other international nations (for friendly match predictor)
+_ALL_NATIONS = [
+    "Afghanistan","Albania","Algeria","American Samoa","Andorra","Angola",
+    "Antigua and Barbuda","Argentina","Armenia","Aruba","Australia","Austria",
+    "Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium",
+    "Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia and Herzegovina",
+    "Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso",
+    "Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands",
+    "Central African Republic","Chad","Chile","China PR","Colombia","Comoros",
+    "Congo","Cook Islands","Costa Rica","Croatia","Cuba","Curaçao","Cyprus",
+    "Czech Republic","DR Congo","Denmark","Djibouti","Dominica","Dominican Republic",
+    "Ecuador","Egypt","El Salvador","England","Equatorial Guinea","Eritrea",
+    "Estonia","Eswatini","Ethiopia","Faroe Islands","Fiji","Finland","France",
+    "French Guiana","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar",
+    "Greece","Greenland","Grenada","Guadeloupe","Guam","Guatemala","Guinea",
+    "Guinea-Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland",
+    "India","Indonesia","Iran","Iraq","Israel","Italy","Ivory Coast","Jamaica",
+    "Japan","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan",
+    "Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein",
+    "Lithuania","Luxembourg","Macau","Madagascar","Malawi","Malaysia","Maldives",
+    "Mali","Malta","Marshall Islands","Martinique","Mauritania","Mauritius",
+    "Mexico","Micronesia","Moldova","Mongolia","Montenegro","Montserrat","Morocco",
+    "Mozambique","Myanmar","Namibia","Nepal","Netherlands","New Caledonia",
+    "New Zealand","Nicaragua","Niger","Nigeria","North Korea","North Macedonia",
+    "Northern Ireland","Norway","Oman","Pakistan","Palestine","Panama",
+    "Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal",
+    "Puerto Rico","Qatar","Republic of Ireland","Romania","Russia","Rwanda",
+    "Saint Kitts and Nevis","Saint Lucia","Saint Vincent and the Grenadines",
+    "Samoa","San Marino","Saudi Arabia","Scotland","Senegal","Serbia","Seychelles",
+    "Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia",
+    "South Africa","South Korea","South Sudan","Spain","Sri Lanka","Sudan",
+    "Suriname","Sweden","Switzerland","Syria","Tahiti","Taiwan","Tajikistan",
+    "Tanzania","Thailand","Timor-Leste","Togo","Tonga","Trinidad and Tobago",
+    "Tunisia","Turkey","Turkmenistan","Turks and Caicos Islands","Uganda","Ukraine",
+    "United Arab Emirates","United States","Uruguay","Uzbekistan","Vanuatu",
+    "Venezuela","Vietnam","Wales","Yemen","Zambia","Zimbabwe",
+]
+
+# Combine: WC teams first (with ── separator marker), then all others not already listed
+_wc_set = set(_WC_TEAMS_CORE)
+_extra = [t for t in sorted(_ALL_NATIONS) if t not in _wc_set and t != "USA"]
+WC_TEAMS = _WC_TEAMS_CORE + ["────────────────"] + _extra
+
+NAME_MAP = {"USA": "United States", "Cabo Verde": "Cape Verde", "Ivory Coast": "Côte d'Ivoire"}
 
 PLAYOFF_ELO = {
     "UEFA Playoff A": 1820, "UEFA Playoff B": 1810,
@@ -420,8 +474,8 @@ PLAYOFF_ELO = {
 
 FLAG_MAP = {
     "Algeria":"🇩🇿","Argentina":"🇦🇷","Australia":"🇦🇺","Austria":"🇦🇹",
-    "Belgium":"🇧🇪","Brazil":"🇧🇷","Cabo Verde":"🇨🇻","Canada":"🇨🇦",
-    "Colombia":"🇨🇴","Croatia":"🇭🇷","Curaçao":"🇨🇼","Côte d'Ivoire":"🇨🇮",
+    "Belgium":"🇧🇪","Brazil":"🇧🇷","Cabo Verde":"🇨🇻","Cape Verde":"🇨🇻","Canada":"🇨🇦",
+    "Colombia":"🇨🇴","Croatia":"🇭🇷","Curaçao":"🇨🇼","Côte d'Ivoire":"🇨🇮","Ivory Coast":"🇨🇮",
     "Ecuador":"🇪🇨","Egypt":"🇪🇬","England":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","France":"🇫🇷",
     "Germany":"🇩🇪","Ghana":"🇬🇭","Haiti":"🇭🇹","Iran":"🇮🇷",
     "Japan":"🇯🇵","Jordan":"🇯🇴","Mexico":"🇲🇽","Morocco":"🇲🇦",
@@ -431,7 +485,53 @@ FLAG_MAP = {
     "South Korea":"🇰🇷","Spain":"🇪🇸","Switzerland":"🇨🇭","Tunisia":"🇹🇳",
     "UEFA Playoff A":"🏴","UEFA Playoff B":"🏴","UEFA Playoff C":"🏴",
     "UEFA Playoff D":"🏴","FIFA Playoff 1":"🏴","FIFA Playoff 2":"🏴",
-    "Uruguay":"🇺🇾","USA":"🇺🇸","Uzbekistan":"🇺🇿",
+    "Uruguay":"🇺🇾","USA":"🇺🇸","United States":"🇺🇸","Uzbekistan":"🇺🇿",
+    # Extended nations
+    "Afghanistan":"🇦🇫","Albania":"🇦🇱","American Samoa":"🇦🇸","Andorra":"🇦🇩",
+    "Angola":"🇦🇴","Antigua and Barbuda":"🇦🇬","Armenia":"🇦🇲","Aruba":"🇦🇼",
+    "Azerbaijan":"🇦🇿","Bahamas":"🇧🇸","Bahrain":"🇧🇭","Bangladesh":"🇧🇩",
+    "Barbados":"🇧🇧","Belarus":"🇧🇾","Belize":"🇧🇿","Benin":"🇧🇯",
+    "Bermuda":"🇧🇲","Bhutan":"🇧🇹","Bolivia":"🇧🇴","Bosnia and Herzegovina":"🇧🇦",
+    "Botswana":"🇧🇼","British Virgin Islands":"🇻🇬","Brunei":"🇧🇳","Bulgaria":"🇧🇬",
+    "Burkina Faso":"🇧🇫","Burundi":"🇧🇮","Cambodia":"🇰🇭","Cameroon":"🇨🇲",
+    "Cayman Islands":"🇰🇾","Central African Republic":"🇨🇫","Chad":"🇹🇩",
+    "Chile":"🇨🇱","China PR":"🇨🇳","Congo":"🇨🇬","Cook Islands":"🇨🇰",
+    "Costa Rica":"🇨🇷","Cuba":"🇨🇺","Cyprus":"🇨🇾","Czech Republic":"🇨🇿",
+    "DR Congo":"🇨🇩","Denmark":"🇩🇰","Djibouti":"🇩🇯","Dominica":"🇩🇲",
+    "Dominican Republic":"🇩🇴","El Salvador":"🇸🇻","Equatorial Guinea":"🇬🇶",
+    "Eritrea":"🇪🇷","Estonia":"🇪🇪","Eswatini":"🇸🇿","Ethiopia":"🇪🇹",
+    "Faroe Islands":"🇫🇴","Fiji":"🇫🇯","Finland":"🇫🇮","French Guiana":"🇬🇫",
+    "Gabon":"🇬🇦","Gambia":"🇬🇲","Georgia":"🇬🇪","Gibraltar":"🇬🇮",
+    "Greece":"🇬🇷","Greenland":"🇬🇱","Grenada":"🇬🇩","Guadeloupe":"🇬🇵",
+    "Guam":"🇬🇺","Guatemala":"🇬🇹","Guinea":"🇬🇳","Guinea-Bissau":"🇬🇼",
+    "Guyana":"🇬🇾","Honduras":"🇭🇳","Hong Kong":"🇭🇰","Hungary":"🇭🇺",
+    "Iceland":"🇮🇸","India":"🇮🇳","Indonesia":"🇮🇩","Iraq":"🇮🇶",
+    "Israel":"🇮🇱","Italy":"🇮🇹","Jamaica":"🇯🇲","Kazakhstan":"🇰🇿",
+    "Kenya":"🇰🇪","Kiribati":"🇰🇮","Kosovo":"🇽🇰","Kuwait":"🇰🇼",
+    "Kyrgyzstan":"🇰🇬","Laos":"🇱🇦","Latvia":"🇱🇻","Lebanon":"🇱🇧",
+    "Lesotho":"🇱🇸","Liberia":"🇱🇷","Libya":"🇱🇾","Liechtenstein":"🇱🇮",
+    "Lithuania":"🇱🇹","Luxembourg":"🇱🇺","Macau":"🇲🇴","Madagascar":"🇲🇬",
+    "Malawi":"🇲🇼","Malaysia":"🇲🇾","Maldives":"🇲🇻","Mali":"🇲🇱",
+    "Malta":"🇲🇹","Marshall Islands":"🇲🇭","Martinique":"🇲🇶","Mauritania":"🇲🇷",
+    "Mauritius":"🇲🇺","Micronesia":"🇫🇲","Moldova":"🇲🇩","Mongolia":"🇲🇳",
+    "Montenegro":"🇲🇪","Montserrat":"🇲🇸","Mozambique":"🇲🇿","Myanmar":"🇲🇲",
+    "Namibia":"🇳🇦","Nepal":"🇳🇵","New Caledonia":"🇳🇨","Nicaragua":"🇳🇮",
+    "Niger":"🇳🇪","Nigeria":"🇳🇬","North Korea":"🇰🇵","North Macedonia":"🇲🇰",
+    "Northern Ireland":"🏴󠁧󠁢󠁮󠁩󠁲󠁿","Oman":"🇴🇲","Pakistan":"🇵🇰","Palestine":"🇵🇸",
+    "Papua New Guinea":"🇵🇬","Peru":"🇵🇪","Philippines":"🇵🇭","Poland":"🇵🇱",
+    "Puerto Rico":"🇵🇷","Republic of Ireland":"🇮🇪","Romania":"🇷🇴","Russia":"🇷🇺",
+    "Rwanda":"🇷🇼","Saint Kitts and Nevis":"🇰🇳","Saint Lucia":"🇱🇨",
+    "Saint Vincent and the Grenadines":"🇻🇨","Samoa":"🇼🇸","San Marino":"🇸🇲",
+    "Serbia":"🇷🇸","Seychelles":"🇸🇨","Sierra Leone":"🇸🇱","Singapore":"🇸🇬",
+    "Slovakia":"🇸🇰","Slovenia":"🇸🇮","Solomon Islands":"🇸🇧","Somalia":"🇸🇴",
+    "South Sudan":"🇸🇸","Sri Lanka":"🇱🇰","Sudan":"🇸🇩","Suriname":"🇸🇷",
+    "Sweden":"🇸🇪","Syria":"🇸🇾","Tahiti":"🇵🇫","Taiwan":"🇹🇼","Tajikistan":"🇹🇯",
+    "Tanzania":"🇹🇿","Thailand":"🇹🇭","Timor-Leste":"🇹🇱","Togo":"🇹🇬",
+    "Tonga":"🇹🇴","Trinidad and Tobago":"🇹🇹","Turkey":"🇹🇷","Turkmenistan":"🇹🇲",
+    "Turks and Caicos Islands":"🇹🇨","Uganda":"🇺🇬","Ukraine":"🇺🇦",
+    "United Arab Emirates":"🇦🇪","Vanuatu":"🇻🇺","Venezuela":"🇻🇪",
+    "Vietnam":"🇻🇳","Wales":"🏴󠁧󠁢󠁷󠁬󠁳󠁿","Yemen":"🇾🇪","Zambia":"🇿🇲","Zimbabwe":"🇿🇼",
+    "Colombia":"🇨🇴",
 }
 
 
@@ -534,11 +634,16 @@ def predict_match(home, away, elo, attack, defense, form, LAH, LAA, is_knockout=
 # ─────────────────────────────────────────────────────────────────
 @st.cache_data(show_spinner="Running full tournament simulation…")
 def run_full_predictions(_elo, _attack, _defense, _form, LAH, LAA):
+    REPO_RAW = "https://raw.githubusercontent.com/Aditya2022331060/world_cup_2026_predictor/main"
     try:
-        group_fixtures    = pd.read_csv("group_match.csv")
-        knockout_fixtures = pd.read_csv("knokout_match.csv")
-    except:
-        return None, None
+        group_fixtures    = pd.read_csv(f"{REPO_RAW}/group_match.csv")
+        knockout_fixtures = pd.read_csv(f"{REPO_RAW}/knokout_match.csv")
+    except Exception:
+        try:
+            group_fixtures    = pd.read_csv("group_match.csv")
+            knockout_fixtures = pd.read_csv("knokout_match.csv")
+        except Exception:
+            return None, None
 
     # Group stage
     gp = group_fixtures.copy()
@@ -661,9 +766,17 @@ def score_matrix_html(pm, max_show=5):
 # HERO
 st.markdown("""
 <div class="hero">
-  <div class="hero-title">WC 2026 PREDICTOR</div>
-  <div class="hero-sub">FIFA World Cup · USA / Canada / Mexico · 48 Teams · 104 Matches</div>
-  <span class="hero-badge">⚡ Poisson + Elo + Dixon-Coles Model</span>
+  <div style="display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap">
+    <div>
+      <div class="hero-title">⚽ WC 2026 PREDICTOR</div>
+      <div class="hero-sub">FIFA World Cup · USA / Canada / Mexico · 48 Teams · 104 Matches</div>
+      <div style="margin-top:0.6rem;display:flex;gap:0.5rem;flex-wrap:wrap">
+        <span class="hero-badge">⚡ Poisson + Elo + Dixon-Coles</span>
+        <span class="hero-badge" style="background:#0a2418;border-color:#f0b429;color:#f0b429">🏆 June 11 – July 19, 2026</span>
+        <span class="hero-badge" style="background:#0a1830;border-color:#3182ce;color:#90cdf4">🌎 3 Host Nations</span>
+      </div>
+    </div>
+  </div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -678,7 +791,7 @@ tab1, tab2, tab3 = st.tabs(["🆚  MATCH PREDICTOR", "📋  FULL TOURNAMENT", "�
 # TAB 1 — MATCH PREDICTOR
 # ═══════════════════════════════════════════════════════════════════
 with tab1:
-    st.markdown('<div class="section-label">Select any two WC 2026 teams</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-label">Select any two teams — WC 2026 nations listed first</div>', unsafe_allow_html=True)
 
     col_h, col_vs, col_a = st.columns([5, 1, 5])
 
@@ -693,26 +806,45 @@ with tab1:
         away = st.selectbox("✈️ Away / Team 2", WC_TEAMS,
                             index=away_default, key="away")
 
-    col_ko, _ = st.columns([2, 5])
+    col_ko, col_btn, _ = st.columns([2, 2, 3])
     with col_ko:
         is_ko = st.toggle("Knockout (no draw)", value=False)
+    with col_btn:
+        predict_clicked = st.button("⚽ PREDICT MATCH", use_container_width=True)
 
     st.markdown("---")
 
-    if home == away:
+    # Check for separator selection
+    _sep = "────────────────"
+    if home == _sep or away == _sep:
+        st.warning("⚠️ Please select a valid team (not the separator line).")
+    elif home == away:
         st.warning("⚠️ Please select two different teams.")
+    elif not predict_clicked and "last_prediction" not in st.session_state:
+        st.markdown("""
+        <div style="text-align:center;padding:3rem 0;color:#7aab8e">
+          <div style="font-size:3rem;margin-bottom:0.5rem">⚽</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:2px;color:#1a7a3f">
+            Select two teams and press PREDICT MATCH</div>
+          <div style="font-size:0.85rem;margin-top:0.5rem;color:#4a7a5a">
+            Powered by Poisson + Elo + Dixon-Coles model trained on 49,000+ matches</div>
+        </div>""", unsafe_allow_html=True)
     else:
-        res = predict_match(home, away, elo_data, atk, dfn, frm, LAH, LAA, is_knockout=is_ko)
+        # Run prediction (either button just clicked, or re-render with cached result)
+        if predict_clicked:
+            st.session_state["last_prediction"] = (home, away, is_ko)
+        pred_home, pred_away, pred_ko = st.session_state.get("last_prediction", (home, away, is_ko))
+        res = predict_match(pred_home, pred_away, elo_data, atk, dfn, frm, LAH, LAA, is_knockout=pred_ko)
 
-        flag_h = FLAG_MAP.get(home, "🏳")
-        flag_a = FLAG_MAP.get(away, "🏳")
+        flag_h = FLAG_MAP.get(pred_home, "🏳")
+        flag_a = FLAG_MAP.get(pred_away, "🏳")
 
         # Score display
         c1, c2, c3 = st.columns([4, 1, 4])
         with c1:
             st.markdown(f"""
             <div class="score-box">
-              <div class="team-name-display">{flag_h} {home}</div>
+              <div class="team-name-display">{flag_h} {pred_home}</div>
               <div class="elo-badge">Elo {res['elo_home']}</div>
               <div class="score-number">{res['home_goals']}</div>
               <div class="xg-label">Expected Goals</div>
@@ -724,7 +856,7 @@ with tab1:
         with c3:
             st.markdown(f"""
             <div class="score-box">
-              <div class="team-name-display">{flag_a} {away}</div>
+              <div class="team-name-display">{flag_a} {pred_away}</div>
               <div class="elo-badge">Elo {res['elo_away']}</div>
               <div class="score-number">{res['away_goals']}</div>
               <div class="xg-label">Expected Goals</div>
@@ -734,10 +866,10 @@ with tab1:
         # Winner banner
         if res["result"] == "home":
             banner_cls = "winner-home"
-            banner_txt = f"🏆 {home} wins"
+            banner_txt = f"🏆 {pred_home} wins"
         elif res["result"] == "away":
             banner_cls = "winner-away"
-            banner_txt = f"🏆 {away} wins"
+            banner_txt = f"🏆 {pred_away} wins"
         else:
             banner_cls = "winner-draw"
             banner_txt = "⚖️ Draw"
@@ -880,3 +1012,28 @@ with tab3:
 
     </div>
     """, unsafe_allow_html=True)
+
+
+# ═══════════════════════════════════════════════════════════════════
+# FOOTER — GitHub Profile
+# ═══════════════════════════════════════════════════════════════════
+st.markdown("""
+<div style="margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1e4030;
+     display:flex;align-items:center;justify-content:center;gap:0.75rem">
+  <a href="https://github.com/Aditya2022331060" target="_blank"
+     style="display:flex;align-items:center;gap:0.75rem;text-decoration:none;
+            background:#0d2418;border:1px solid #1e4030;border-radius:40px;
+            padding:0.5rem 1.2rem 0.5rem 0.5rem;transition:all 0.2s"
+     onmouseover="this.style.borderColor='#f0b429';this.style.boxShadow='0 0 16px rgba(240,180,41,0.2)'"
+     onmouseout="this.style.borderColor='#1e4030';this.style.boxShadow='none'">
+    <img src="https://github.com/Aditya2022331060.png?size=40"
+         style="width:36px;height:36px;border-radius:50%;border:2px solid #1a7a3f;object-fit:cover"
+         onerror="this.src='https://avatars.githubusercontent.com/u/Aditya2022331060?v=4'" />
+    <div>
+      <div style="color:#e8f5ee;font-weight:600;font-size:0.85rem;line-height:1.2">Aditya</div>
+      <div style="color:#7aab8e;font-size:0.72rem">github.com/Aditya2022331060</div>
+    </div>
+  </a>
+  <span style="color:#4a7a5a;font-size:0.78rem">· Built with ❤️ &amp; Poisson distributions</span>
+</div>
+""", unsafe_allow_html=True)
