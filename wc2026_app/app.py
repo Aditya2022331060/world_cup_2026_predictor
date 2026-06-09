@@ -24,289 +24,307 @@ st.set_page_config(
 )
 
 # ─────────────────────────────────────────────────────────────────
-# CUSTOM CSS  – dark stadium aesthetic
+# CUSTOM CSS – North American 2026 Vibrant Neon Aesthetic
 # ─────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
 
-/* ── root variables ── */
+/* ── Design Tokens ── */
 :root {
-  --pitch: #0a3d1f;
-  --pitch-mid: #0f5c2e;
-  --pitch-light: #1a7a3f;
-  --gold: #f0b429;
-  --gold-dim: #c4922a;
-  --red: #e53e3e;
-  --blue: #3182ce;
-  --bg: #06110d;
-  --surface: #0d2418;
-  --border: #1e4030;
-  --text: #e8f5ee;
-  --muted: #7aab8e;
+  --bg-dark: #070913;
+  --panel-bg: rgba(22, 28, 45, 0.45);
+  --panel-border: rgba(255, 255, 255, 0.08);
+  --text-primary: #f8fafc;
+  --text-muted: #94a3b8;
+  
+  /* 2026 Host Country Palette */
+  --wc-purple: #4f46e5;
+  --wc-cyan: #06b6d4;
+  --wc-pink: #f43f5e;
+  --wc-gold: #f59e0b;
+  --success: #10b981;
 }
 
-/* ── global reset ── */
+/* ── Global Formatting Reset ── */
 html, body, [class*="css"] {
-    background-color: var(--bg) !important;
-    color: var(--text) !important;
-    font-family: 'Inter', sans-serif !important;
+    background-color: var(--bg-dark) !important;
+    color: var(--text-primary) !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
 }
 
-/* ── hide streamlit chrome ── */
+.block-container { 
+    padding: 2rem max(2vw, 1.5rem) !important; 
+    max-width: 1300px !important; 
+}
 #MainMenu, footer, header { visibility: hidden; }
-.block-container { padding: 1.5rem 2rem !important; max-width: 1200px !important; }
 
-/* ── hero header ── */
-.hero {
-    background: linear-gradient(135deg, #0a3d1f 0%, #001a0a 60%, #0a1830 100%);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 2.5rem 3rem;
-    margin-bottom: 2rem;
+/* ── Host-Inspired Branding Hero ── */
+.hero-container {
+    background: radial-gradient(circle at 90% 10%, rgba(79, 70, 229, 0.25) 0%, transparent 45%),
+                radial-gradient(circle at 10% 90%, rgba(244, 63, 94, 0.2) 0%, transparent 45%),
+                linear-gradient(135deg, #0f1225 0%, #070913 100%);
+    border: 1px solid var(--panel-border);
+    border-radius: 24px;
+    padding: 3rem 2.5rem;
+    margin-bottom: 2.5rem;
     position: relative;
-    overflow: hidden;
+    box-shadow: 0 20px 40px -15px rgba(0,0,0,0.5);
 }
-.hero::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-    background: repeating-linear-gradient(
-        90deg,
-        transparent, transparent 60px,
-        rgba(255,255,255,0.015) 60px, rgba(255,255,255,0.015) 61px
-    ),
-    repeating-linear-gradient(
-        0deg,
-        transparent, transparent 60px,
-        rgba(255,255,255,0.008) 60px, rgba(255,255,255,0.008) 61px
-    );
-    pointer-events: none;
+.hero-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
 }
-.hero::after {
-    content: '⚽';
-    position: absolute; right: 2.5rem; top: 50%; transform: translateY(-50%);
-    font-size: 5rem; opacity: 0.06; pointer-events: none;
-}
-.hero-title {
-    font-family: 'Bebas Neue', sans-serif !important;
-    font-size: 3.5rem;
-    line-height: 1;
-    color: var(--gold) !important;
-    letter-spacing: 2px;
+.hero-title-group h1 {
+    font-family: 'Space Grotesk', sans-serif !important;
+    font-weight: 700;
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    line-height: 1.1;
+    background: linear-gradient(135deg, #fff 20%, var(--text-muted) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     margin: 0;
+    letter-spacing: -1px;
 }
-.hero-sub {
-    color: var(--muted);
-    font-size: 1rem;
+.hero-subtitle {
+    color: var(--text-muted);
+    font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+    margin-top: 0.5rem;
     font-weight: 400;
-    margin-top: 0.4rem;
 }
-.hero-badge {
-    display: inline-block;
-    background: var(--pitch-mid);
-    border: 1px solid var(--pitch-light);
-    color: #7aff99;
+.badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1.2rem;
+}
+.wc-badge {
+    padding: 6px 14px;
+    border-radius: 100px;
     font-size: 0.75rem;
     font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 20px;
-    margin-top: 0.8rem;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
+    border: 1px solid rgba(255,255,255,0.06);
 }
 
-/* ── section card ── */
+/* ── Section Container Cards ── */
 .section-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
+    background: var(--panel-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--panel-border);
+    border-radius: 20px;
+    padding: 1.75rem;
+    margin-bottom: 2rem;
 }
 .section-label {
-    font-size: 0.7rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.8rem;
     font-weight: 700;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 1rem;
+    color: var(--wc-cyan);
+    margin-bottom: 1.25rem;
 }
 
-/* ── team selector ── */
+/* ── Dropdowns / Input Styling ── */
 .stSelectbox > div > div {
-    background: #0d2418 !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 8px !important;
-    color: var(--text) !important;
+    background: rgba(15, 23, 42, 0.6) !important;
+    border: 1px solid var(--panel-border) !important;
+    border-radius: 12px !important;
+    color: var(--text-primary) !important;
+    padding: 0.2rem 0.5rem;
 }
-.stSelectbox > div > div:hover { border-color: var(--gold) !important; }
+.stSelectbox > div > div:hover { border-color: var(--wc-purple) !important; }
 
-/* ── score display ── */
-.score-box {
-    background: linear-gradient(135deg, #0d2418, #061510);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 2rem 1.5rem;
-    text-align: center;
+/* ── Score & Match Predictor Layout ── */
+.score-flex-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin: 1.5rem 0;
 }
-.team-name-display {
-    font-family: 'Bebas Neue', sans-serif;
+.team-card {
+    flex: 1;
+    min-width: 260px;
+    background: linear-gradient(180deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.4) 100%);
+    border: 1px solid var(--panel-border);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease;
+}
+.team-card:hover {
+    transform: translateY(-2px);
+}
+.team-name {
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 2rem;
-    letter-spacing: 1px;
-    color: var(--text);
-    margin-bottom: 0.3rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.25rem;
 }
 .score-number {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 5.5rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 6.5rem;
+    font-weight: 700;
     line-height: 1;
-    color: var(--gold);
+    color: #fff;
+    margin: 1rem 0;
+    text-shadow: 0 10px 25px rgba(0,0,0,0.4);
 }
-.score-divider {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 4rem;
-    color: var(--muted);
-    line-height: 1;
+.vs-divider {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    opacity: 0.5;
+    padding: 0 1rem;
 }
-.elo-badge {
+.stat-sub-label {
     font-size: 0.75rem;
-    color: var(--muted);
-    font-weight: 500;
-    letter-spacing: 0.5px;
-}
-.xg-label {
-    font-size: 0.8rem;
-    color: var(--muted);
-    margin-top: 0.3rem;
-}
-.xg-value {
-    font-size: 1.4rem;
-    font-family: 'Bebas Neue', sans-serif;
-    color: var(--pitch-light);
+    color: var(--text-muted);
+    text-transform: uppercase;
     letter-spacing: 1px;
 }
+.stat-sub-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--wc-cyan);
+    margin-top: 0.2rem;
+}
 
-/* ── winner banner ── */
+/* ── Dynamic Result Banner ── */
 .winner-banner {
-    border-radius: 10px;
-    padding: 1rem 1.5rem;
+    border-radius: 14px;
+    padding: 1.2rem;
     text-align: center;
-    font-size: 1rem;
-    font-weight: 600;
-    margin-top: 1rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin: 2rem 0;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
-.winner-home { background: linear-gradient(90deg,#0f3d1e,#0a2918); border:1px solid #1a7a3f; color:#7aff99; }
-.winner-away { background: linear-gradient(90deg,#2a0a0a,#1a0505); border:1px solid #c53030; color:#ff9999; }
-.winner-draw { background: linear-gradient(90deg,#2a2a0a,#1a1a05); border:1px solid #b7791f; color:#f0b429; }
+.winner-home { background: linear-gradient(90deg, rgba(6,182,212,0.15), rgba(79,70,229,0.15)); border: 1px solid var(--wc-cyan); color: #cffafe; }
+.winner-away { background: linear-gradient(90deg, rgba(244,63,94,0.15), rgba(79,70,229,0.15)); border: 1px solid var(--wc-pink); color: #ffe4e6; }
+.winner-draw { background: linear-gradient(90deg, rgba(245,158,11,0.15), rgba(30,41,59,0.15)); border: 1px solid var(--wc-gold); color: #fef3c7; }
 
-/* ── probability bars ── */
-.prob-container { margin: 0.5rem 0; }
-.prob-row { display:flex; align-items:center; gap:0.75rem; margin-bottom:0.5rem; }
-.prob-label { width: 55px; font-size:0.8rem; color:var(--muted); text-align:right; flex-shrink:0; }
-.prob-bar-wrap { flex:1; background:#0a2418; border-radius:4px; height:10px; overflow:hidden; }
-.prob-bar-inner { height:10px; border-radius:4px; transition: width 0.5s ease; }
-.bar-home { background: linear-gradient(90deg, #2ecc71, #27ae60); }
-.bar-draw { background: linear-gradient(90deg, #f0b429, #c4922a); }
-.bar-away { background: linear-gradient(90deg, #e74c3c, #c0392b); }
-.prob-pct { width:40px; font-size:0.8rem; font-weight:600; color:var(--text); flex-shrink:0; }
-
-/* ── stat pills ── */
-.stat-grid { display:flex; gap:0.75rem; flex-wrap:wrap; justify-content:center; margin-top:1rem; }
-.stat-pill {
-    background: #0a2418;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 0.6rem 1.2rem;
+/* ── Statistics Micro-Flex Pills ── */
+.pills-container {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+.metric-pill {
+    background: rgba(30, 41, 59, 0.4);
+    border: 1px solid var(--panel-border);
+    border-radius: 14px;
+    padding: 0.8rem 1.4rem;
+    min-width: 120px;
     text-align: center;
-    min-width: 90px;
 }
-.stat-pill-value { font-family:'Bebas Neue',sans-serif; font-size:1.6rem; color:var(--gold); display:block; line-height:1; }
-.stat-pill-label { font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-top:2px; }
+.metric-pill-val {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.1;
+}
+.metric-pill-lbl {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+}
 
-/* ── score matrix ── */
+/* ── Distribution Bars ── */
+.prob-container { margin: 0.5rem 0; width: 100%; }
+.prob-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem; }
+.prob-label { width: 60px; font-size: 0.8rem; color: var(--text-muted); text-align: right; font-weight: 500; }
+.prob-bar-wrap { flex: 1; background: rgba(255,255,255,0.05); border-radius: 100px; height: 12px; overflow: hidden; }
+.prob-bar-inner { height: 12px; border-radius: 100px; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+.bar-home { background: linear-gradient(90deg, var(--wc-purple), var(--wc-cyan)); }
+.bar-draw { background: linear-gradient(90deg, #64748b, #94a3b8); }
+.bar-away { background: linear-gradient(90deg, var(--wc-pink), #fda4af); }
+.prob-pct { width: 50px; font-size: 0.85rem; font-weight: 700; color: #fff; }
+
+/* ── Interactive Grid Matrix ── */
 .matrix-cell {
-    display:inline-block;
-    width:32px; height:32px;
-    line-height:32px;
-    text-align:center;
-    border-radius:5px;
-    font-size:0.75rem;
-    font-weight:600;
-    margin:1px;
+    display: inline-block;
+    width: 36px; height: 36px;
+    line-height: 36px;
+    text-align: center;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin: 2px;
 }
 
-/* ── full predictions table ── */
-.stDataFrame { border-radius: 10px !important; overflow:hidden !important; }
-div[data-testid="stDataFrame"] { background: var(--surface) !important; }
+/* ── Action Buttons ── */
+.stButton > button {
+    background: linear-gradient(135deg, var(--wc-purple) 0%, #3b82f6 100%) !important;
+    border: none !important;
+    color: #fff !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    font-size: 0.9rem !important;
+    border-radius: 12px !important;
+    padding: 0.7rem 2.5rem !important;
+    box-shadow: 0 10px 20px -10px rgba(79, 70, 229, 0.5) !important;
+    transition: all 0.2s ease !important;
+}
+.stButton > button:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 12px 24px -8px rgba(79, 70, 229, 0.7) !important;
+}
 
-/* ── tabs ── */
+/* ── Modernized Tabs ── */
 .stTabs [data-baseweb="tab-list"] {
-    background: var(--surface) !important;
-    border-radius: 10px 10px 0 0 !important;
-    border-bottom: 1px solid var(--border) !important;
-    gap: 0 !important;
+    background: transparent !important;
+    padding: 0 !important;
+    gap: 0.5rem !important;
+    border-bottom: 1px solid var(--panel-border) !important;
 }
 .stTabs [data-baseweb="tab"] {
     background: transparent !important;
-    color: var(--muted) !important;
+    color: var(--text-muted) !important;
     font-weight: 600 !important;
-    font-size: 0.85rem !important;
-    letter-spacing: 0.5px !important;
+    font-size: 0.9rem !important;
     padding: 0.75rem 1.5rem !important;
-    border-bottom: 2px solid transparent !important;
+    border: none !important;
 }
 .stTabs [aria-selected="true"] {
-    color: var(--gold) !important;
-    border-bottom: 2px solid var(--gold) !important;
-    background: transparent !important;
+    color: var(--wc-cyan) !important;
+    border-bottom: 2px solid var(--wc-cyan) !important;
 }
 .stTabs [data-baseweb="tab-panel"] {
-    background: var(--surface) !important;
-    border: 1px solid var(--border) !important;
+    background: var(--panel-bg) !important;
+    border: 1px solid var(--panel-border) !important;
     border-top: none !important;
-    border-radius: 0 0 10px 10px !important;
-    padding: 1.5rem !important;
+    border-radius: 0 0 20px 20px !important;
+    padding: 2rem !important;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
 }
 
-/* ── button ── */
-.stButton > button {
-    background: linear-gradient(135deg, var(--pitch-mid), var(--pitch)) !important;
-    border: 1px solid var(--gold) !important;
-    color: var(--gold) !important;
-    font-weight: 700 !important;
-    letter-spacing: 1px !important;
-    text-transform: uppercase !important;
-    font-size: 0.85rem !important;
-    border-radius: 8px !important;
-    padding: 0.6rem 2rem !important;
-    transition: all 0.2s !important;
-}
-.stButton > button:hover {
-    background: linear-gradient(135deg, var(--pitch-light), var(--pitch-mid)) !important;
-    box-shadow: 0 0 20px rgba(240,180,41,0.3) !important;
-}
-
-/* ── metric overrides ── */
-[data-testid="metric-container"] {
-    background: #0a2418 !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 10px !important;
-    padding: 0.75rem 1rem !important;
-}
-[data-testid="metric-container"] label { color: var(--muted) !important; font-size:0.75rem !important; }
-[data-testid="metric-container"] [data-testid="stMetricValue"] { color: var(--gold) !important; font-size:1.6rem !important; }
-
-/* ── divider ── */
-hr { border-color: var(--border) !important; }
-
-/* ── tooltip / expander ── */
-.streamlit-expanderHeader { color: var(--muted) !important; font-size:0.85rem !important; }
+/* ── Structural Table / DataFrame Tweaks ── */
+div[data-testid="stDataFrame"] { background: transparent !important; }
+hr { border-color: var(--panel-border) !important; }
 </style>
 """, unsafe_allow_html=True)
 
 
 # ─────────────────────────────────────────────────────────────────
-# DATA & MODEL  (cached)
+# DATA & MODEL (cached)
 # ─────────────────────────────────────────────────────────────────
 @st.cache_data(show_spinner="Loading historical match data…")
 def load_and_train():
@@ -346,7 +364,6 @@ def load_and_train():
         elo[a] = ea + k * gd_m * ((1-sh) - (1-exp_h))
 
     # ── Attack / Defense strengths (recency-weighted, 2019+) ──────
-    # Use exponential time decay: λ = 0.003 per day
     recent = raw[(raw["date"] >= "2019-01-01") &
                  raw["home_score"].notna()].copy()
     recent[["home_score","away_score"]] = recent[["home_score","away_score"]].astype(int)
@@ -356,22 +373,19 @@ def load_and_train():
     recent["tourn_w"]  = recent["tournament"].map(TW).fillna(1.0)
     recent["weight"]   = recent["time_w"] * recent["tourn_w"]
 
-    # WC-calibrated base rates (neutral venue, WC tournament)
     wc = recent[recent["tournament"] == "FIFA World Cup"]
     LAH_WC = wc["home_score"].mean() if len(wc) > 20 else 1.36
     LAA_WC = wc["away_score"].mean() if len(wc) > 20 else 1.21
-    # Use WC rates as base (all WC matches are neutral)
     LA_BASE = (LAH_WC + LAA_WC) / 2
 
     all_teams = set(recent["home_team"]) | set(recent["away_team"])
     attack = {}; defense = {}
-    form   = {}   # last-5-game form score (0–1)
+    form   = {}
 
     for team in all_teams:
         hm = recent[recent["home_team"] == team]
         aw = recent[recent["away_team"] == team]
 
-        # Weighted goals for/against
         gf_h = (hm["home_score"] * hm["weight"]).sum()
         gf_a = (aw["away_score"] * aw["weight"]).sum()
         ga_h = (hm["away_score"] * hm["weight"]).sum()
@@ -389,7 +403,6 @@ def load_and_train():
             attack[team]  = 1.0
             defense[team] = 1.0
 
-        # Recent form: last 5 competitive games
         games = recent[(recent["home_team"]==team)|(recent["away_team"]==team)].tail(5)
         pts = 0; possible = 0
         for _, g in games.iterrows():
@@ -408,35 +421,21 @@ def load_and_train():
 # ─────────────────────────────────────────────────────────────────
 # TEAM CONSTANTS
 # ─────────────────────────────────────────────────────────────────
-# WC 2026 teams — all 48 confirmed (no more placeholder names)
 _WC_TEAMS_CORE = [
-    # Group A
     "Mexico","South Africa","South Korea","Czechia",
-    # Group B
     "Canada","Switzerland","Qatar","Bosnia and Herzegovina",
-    # Group C
     "Brazil","Morocco","Haiti","Scotland",
-    # Group D
     "USA","Paraguay","Australia","Türkiye",
-    # Group E
     "Germany","Curaçao","Côte d'Ivoire","Ecuador",
-    # Group F
     "Netherlands","Japan","Sweden","Tunisia",
-    # Group G
     "Belgium","Egypt","Iran","New Zealand",
-    # Group H
     "Spain","Cabo Verde","Saudi Arabia","Uruguay",
-    # Group I
     "France","Senegal","Norway","Iraq",
-    # Group J
     "Argentina","Algeria","Austria","Jordan",
-    # Group K
     "Portugal","DR Congo","Uzbekistan","Colombia",
-    # Group L
     "England","Croatia","Ghana","Panama",
 ]
 
-# All FIFA + other international nations (for friendly match predictor)
 _ALL_NATIONS = [
     "Afghanistan","Albania","Algeria","American Samoa","Andorra","Angola",
     "Antigua and Barbuda","Argentina","Armenia","Aruba","Australia","Austria",
@@ -474,60 +473,55 @@ _ALL_NATIONS = [
     "Venezuela","Vietnam","Wales","Yemen","Zambia","Zimbabwe",
 ]
 
-# Combine: WC teams first (with ── separator marker), then all others not already listed
 _wc_set = set(_WC_TEAMS_CORE)
 _extra = [t for t in sorted(_ALL_NATIONS) if t not in _wc_set and t != "USA"]
 WC_TEAMS = _WC_TEAMS_CORE + ["────────────────"] + _extra
 
 NAME_MAP = {
-    # App name → dataset name
     "USA":                      "United States",
     "Cabo Verde":               "Cape Verde",
     "Côte d'Ivoire":            "Ivory Coast",
     "Ivory Coast":              "Ivory Coast",
     "Czechia":                  "Czech Republic",
     "Türkiye":                  "Turkey",
-    "Bosnia and Herzegovina":   "Bosnia and Herzegovina",  # already correct in dataset
-    "DR Congo":                 "DR Congo",                # already correct in dataset
+    "Bosnia and Herzegovina":   "Bosnia and Herzegovina",
+    "DR Congo":                 "DR Congo",
 }
 
-PLAYOFF_ELO = {}  # No more placeholder teams
+PLAYOFF_ELO = {}
 
 FLAG_MAP = {
     "Algeria":"🇩🇿","Argentina":"🇦🇷","Australia":"🇦🇺","Austria":"🇦🇹",
     "Belgium":"🇧🇪","Brazil":"🇧🇷","Cabo Verde":"🇨🇻","Cape Verde":"🇨🇻","Canada":"🇨🇦",
     "Colombia":"🇨🇴","Croatia":"🇭🇷","Curaçao":"🇨🇼","Côte d'Ivoire":"🇨🇮","Ivory Coast":"🇨🇮",
     "Ecuador":"🇪🇨","Egypt":"🇪🇬","England":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","France":"🇫🇷",
-    "Germany":"🇩🇪","Ghana":"🇬🇭","Haiti":"🇭🇹","Iran":"🇮🇷",
+    "Germany":"🇩🇪","Ghana":"🇬🇭","Haiti":"🇮🇹","Iran":"🇮🇷",
     "Japan":"🇯🇵","Jordan":"🇯🇴","Mexico":"🇲🇽","Morocco":"🇲🇦",
     "Netherlands":"🇳🇱","New Zealand":"🇳🇿","Norway":"🇳🇴","Panama":"🇵🇦",
     "Paraguay":"🇵🇾","Portugal":"🇵🇹","Qatar":"🇶🇦","Saudi Arabia":"🇸🇦",
     "Scotland":"🏴󠁧󠁢󠁳󠁣󠁴󠁿","Senegal":"🇸🇳","South Africa":"🇿🇦",
     "South Korea":"🇰🇷","Spain":"🇪🇸","Switzerland":"🇨🇭","Tunisia":"🇹🇳",
     "Uruguay":"🇺🇾","USA":"🇺🇸","United States":"🇺🇸","Uzbekistan":"🇺🇿",
-    # New confirmed 2026 WC playoff winners
     "Bosnia and Herzegovina":"🇧🇦","Sweden":"🇸🇪","Türkiye":"🇹🇷","Turkey":"🇹🇷",
     "Czechia":"🇨🇿","Czech Republic":"🇨🇿","Iraq":"🇮🇶","DR Congo":"🇨🇩",
-    # Extended nations
     "Afghanistan":"🇦🇫","Albania":"🇦🇱","American Samoa":"🇦🇸","Andorra":"🇦🇩",
     "Angola":"🇦🇴","Antigua and Barbuda":"🇦🇬","Armenia":"🇦🇲","Aruba":"🇦🇼",
     "Azerbaijan":"🇦🇿","Bahamas":"🇧🇸","Bahrain":"🇧🇭","Bangladesh":"🇧🇩",
     "Barbados":"🇧🇧","Belarus":"🇧🇾","Belize":"🇧🇿","Benin":"🇧🇯",
-    "Bermuda":"🇧🇲","Bhutan":"🇧🇹","Bolivia":"🇧🇴","Bosnia and Herzegovina":"🇧🇦",
-    "Botswana":"🇧🇼","British Virgin Islands":"🇻🇬","Brunei":"🇧🇳","Bulgaria":"🇧🇬",
+    "Bermuda":"🇧🇲","Bhutan":"🇧🇹","Bolivia":"🇧🇴","Botswana":"🇧🇼",
+    "British Virgin Islands":"🇻🇬","Brunei":"🇧🇳","Bulgaria":"🇧🇬",
     "Burkina Faso":"🇧🇫","Burundi":"🇧🇮","Cambodia":"🇰🇭","Cameroon":"🇨🇲",
     "Cayman Islands":"🇰🇾","Central African Republic":"🇨🇫","Chad":"🇹🇩",
     "Chile":"🇨🇱","China PR":"🇨🇳","Congo":"🇨🇬","Cook Islands":"🇨🇰",
-    "Costa Rica":"🇨🇷","Cuba":"🇨🇺","Cyprus":"🇨🇾","Czech Republic":"🇨🇿",
-    "DR Congo":"🇨🇩","Denmark":"🇩🇰","Djibouti":"🇩🇯","Dominica":"🇩🇲",
-    "Dominican Republic":"🇩🇴","El Salvador":"🇸🇻","Equatorial Guinea":"🇬🇶",
-    "Eritrea":"🇪🇷","Estonia":"🇪🇪","Eswatini":"🇸🇿","Ethiopia":"🇪🇹",
-    "Faroe Islands":"🇫🇴","Fiji":"🇫🇯","Finland":"🇫🇮","French Guiana":"🇬🇫",
-    "Gabon":"🇬🇦","Gambia":"🇬🇲","Georgia":"🇬🇪","Gibraltar":"🇬🇮",
-    "Greece":"🇬🇷","Greenland":"🇬🇱","Grenada":"🇬🇩","Guadeloupe":"🇬🇵",
-    "Guam":"🇬🇺","Guatemala":"🇬🇹","Guinea":"🇬🇳","Guinea-Bissau":"🇬🇼",
-    "Guyana":"🇬🇾","Honduras":"🇭🇳","Hong Kong":"🇭🇰","Hungary":"🇭🇺",
-    "Iceland":"🇮🇸","India":"🇮🇳","Indonesia":"🇮🇩","Iraq":"🇮🇶",
+    "Costa Rica":"🇨🇷","Cuba":"🇨🇺","Cyprus":"🇨🇾","Denmark":"🇩🇰",
+    "Djibouti":"🇩🇯","Dominica":"🇩🇲","Dominican Republic":"🇩🇴","El Salvador":"🇸🇻",
+    "Equatorial Guinea":"🇬🇶","Eritrea":"🇪🇷","Estonia":"🇪🇪","Eswatini":"🇸🇿",
+    "Ethiopia":"🇪🇹","Faroe Islands":"🇫🇴","Fiji":"🇫🇯","Finland":"🇫🇮",
+    "French Guiana":"🇬🇫","Gabon":"🇬🇦","Gambia":"🇬🇲","Georgia":"🇬🇪",
+    "Gibraltar":"🇬🇮","Greece":"🇬🇷","Greenland":"🇬🇱","Grenada":"🇬🇩",
+    "Guadeloupe":"🇬🇵","Guam":"🇬🇺","Guatemala":"🇬🇹","Guinea":"🇬🇳",
+    "Guinea-Bissau":"🇬🇼","Guyana":"🇬🇾","Honduras":"🇭🇳","Hong Kong":"🇭🇰",
+    "Hungary":"🇭🇺","Iceland":"🇮🇸","India":"🇮🇳","Indonesia":"🇮🇩",
     "Israel":"🇮🇱","Italy":"🇮🇹","Jamaica":"🇯🇲","Kazakhstan":"🇰🇿",
     "Kenya":"🇰🇪","Kiribati":"🇰🇮","Kosovo":"🇽🇰","Kuwait":"🇰🇼",
     "Kyrgyzstan":"🇰🇬","Laos":"🇱🇦","Latvia":"🇱🇻","Lebanon":"🇱🇧",
@@ -547,13 +541,12 @@ FLAG_MAP = {
     "Serbia":"🇷🇸","Seychelles":"🇸🇨","Sierra Leone":"🇸🇱","Singapore":"🇸🇬",
     "Slovakia":"🇸🇰","Slovenia":"🇸🇮","Solomon Islands":"🇸🇧","Somalia":"🇸🇴",
     "South Sudan":"🇸🇸","Sri Lanka":"🇱🇰","Sudan":"🇸🇩","Suriname":"🇸🇷",
-    "Sweden":"🇸🇪","Syria":"🇸🇾","Tahiti":"🇵🇫","Taiwan":"🇹🇼","Tajikistan":"🇹🇯",
+    "Syria":"🇸🇾","Tahiti":"🇵🇫","Taiwan":"🇹🇼","Tajikistan":"🇹🇯",
     "Tanzania":"🇹🇿","Thailand":"🇹🇭","Timor-Leste":"🇹🇱","Togo":"🇹🇬",
-    "Tonga":"🇹🇴","Trinidad and Tobago":"🇹🇹","Turkey":"🇹🇷","Turkmenistan":"🇹🇲",
+    "Tonga":"🇹🇴","Trinidad and Tobago":"🇹🇹","Turkmenistan":"🇹🇲",
     "Turks and Caicos Islands":"🇹🇨","Uganda":"🇺🇬","Ukraine":"🇺🇦",
     "United Arab Emirates":"🇦🇪","Vanuatu":"🇻🇺","Venezuela":"🇻🇪",
     "Vietnam":"🇻🇳","Wales":"🏴󠁧󠁢󠁷󠁬󠁳󠁿","Yemen":"🇾🇪","Zambia":"🇿🇲","Zimbabwe":"🇿🇼",
-    "Colombia":"🇨🇴",
 }
 
 
@@ -561,14 +554,6 @@ FLAG_MAP = {
 # REFINED PREDICTION ENGINE
 # ─────────────────────────────────────────────────────────────────
 def predict_match(home, away, elo, attack, defense, form, LAH, LAA, is_knockout=False):
-    """
-    Refined Poisson model with:
-    - Elo-based strength adjustment
-    - Recency + tournament weighted attack/defense
-    - Dixon-Coles low-score correction
-    - Recent form factor
-    - WC-calibrated base rates
-    """
     def _elo(t):
         if t in PLAYOFF_ELO: return PLAYOFF_ELO[t]
         return elo.get(NAME_MAP.get(t, t), 1550)
@@ -577,19 +562,15 @@ def predict_match(home, away, elo, attack, defense, form, LAH, LAA, is_knockout=
     def _def(t): return defense.get(NAME_MAP.get(t, t), 1.0)
     def _form(t): return form.get(NAME_MAP.get(t, t), 0.5)
 
-    # Elo-based adjustment
     elo_diff = _elo(home) - _elo(away)
     elo_factor = 1 + (elo_diff / 1000) * 0.45
 
-    # Form factor (small nudge ±5%)
     form_h = 0.95 + _form(home) * 0.1
     form_a = 0.95 + _form(away) * 0.1
 
-    # Expected goals (WC base rates, all neutral)
     lam_h = max(0.25, min(LAH * _atk(home) * _def(away) * elo_factor * form_h, 5.5))
     lam_a = max(0.25, min(LAA * _atk(away) * _def(home) / elo_factor * form_a, 5.5))
 
-    # ── Dixon-Coles correction (rho=-0.1 typical for WC) ──
     rho = -0.10
     def dc_correction(i, j, mu1, mu2, r):
         if   i==0 and j==0: return 1 - mu1*mu2*r
@@ -606,9 +587,8 @@ def predict_match(home, away, elo, attack, defense, form, LAH, LAA, is_knockout=
             prob_matrix[i, j] = base * dc_correction(i, j, lam_h, lam_a, rho)
 
     prob_matrix = np.clip(prob_matrix, 0, None)
-    prob_matrix /= prob_matrix.sum()  # renormalise
+    prob_matrix /= prob_matrix.sum()
 
-    # Most likely scoreline
     idx = np.unravel_index(prob_matrix.argmax(), prob_matrix.shape)
     p_home = float(prob_matrix[np.tril_indices(N, -1)].sum())
     p_draw = float(np.trace(prob_matrix))
@@ -618,17 +598,13 @@ def predict_match(home, away, elo, attack, defense, form, LAH, LAA, is_knockout=
     elif p_away > p_home and p_away > p_draw: result = "away"
     else: result = "draw"
 
-    # Knockout: no draw → Elo tiebreak (represents ET/pens)
     if is_knockout and result == "draw":
         result = "home" if _elo(home) >= _elo(away) else "away"
 
-    # ── Corners: calibrated to WC avg 9.5 ──
-    # Higher xG → more corners; defensive teams generate fewer
     total_xg = lam_h + lam_a
-    def_ratio = (_def(home) + _def(away)) / 2  # high = defensive = fewer corners
+    def_ratio = (_def(home) + _def(away)) / 2
     corners = max(6, min(14, int(round(5.5 + total_xg * 1.6 + (1 - def_ratio) * 1.2))))
 
-    # ── Cards: calibrated to WC avg 3.2 yellow, 0.15 red ──
     competition = 1 - abs(p_home - p_away)
     yellows = max(1, min(7, int(round(1.8 + competition * 2.2))))
     red     = 1 if competition > 0.88 else 0
@@ -652,7 +628,7 @@ def predict_match(home, away, elo, attack, defense, form, LAH, LAA, is_knockout=
 
 
 # ─────────────────────────────────────────────────────────────────
-# GROUP STAGE FULL PREDICTIONS  (cached)
+# GROUP STAGE FULL PREDICTIONS (cached)
 # ─────────────────────────────────────────────────────────────────
 @st.cache_data(show_spinner="Running full tournament simulation…")
 def run_full_predictions(_elo, _attack, _defense, _form, LAH, LAA):
@@ -672,7 +648,6 @@ def run_full_predictions(_elo, _attack, _defense, _form, LAH, LAA):
         except Exception:
             return None, None
 
-    # Group stage
     gp = group_fixtures.copy()
     rows = [predict_match(r["home_team"], r["away_team"],
                           _elo, _attack, _defense, _form, LAH, LAA)
@@ -686,7 +661,6 @@ def run_full_predictions(_elo, _attack, _defense, _form, LAH, LAA):
     gp["xG_home"]              = [r["lam_h"] for r in rows]
     gp["xG_away"]              = [r["lam_a"] for r in rows]
 
-    # Simulate standings
     standings = {}
     for _, r in gp.iterrows():
         grp=r["group"]; h=r["home_team"]; a=r["away_team"]
@@ -766,8 +740,8 @@ def prob_bar_html(p_home, p_draw, p_away):
 
 def score_matrix_html(pm, max_show=5):
     html = '<div style="overflow-x:auto">'
-    html += '<table style="border-collapse:separate;border-spacing:3px;margin:0 auto">'
-    header_style = 'style="text-align:center;font-size:0.7rem;color:#7aab8e;padding:2px 6px;font-weight:700"'
+    html += '<table style="border-collapse:separate;border-spacing:4px;margin:0 auto">'
+    header_style = 'style="text-align:center;font-size:0.75rem;color:#94a3b8;padding:4px 8px;font-weight:700;font-family:\'Space Grotesk\',sans-serif;"'
     html += f'<tr><td {header_style}></td>'
     for j in range(max_show): html += f'<td {header_style}>{j}</td>'
     html += '</tr>'
@@ -776,12 +750,11 @@ def score_matrix_html(pm, max_show=5):
         html += f'<tr><td {header_style}>{i}</td>'
         for j in range(max_show):
             p = pm[i,j]
-            intensity = int(p / max_p * 220) if max_p > 0 else 0
-            if i > j:   bg = f"rgba(46,204,113,{p/max_p*0.85})"
-            elif i < j: bg = f"rgba(231,76,60,{p/max_p*0.85})"
-            else:       bg = f"rgba(240,180,41,{p/max_p*0.85})"
+            if i > j:   bg = f"rgba(6,182,212,{0.15 + (p/max_p)*0.7})"
+            elif i < j: bg = f"rgba(244,63,94,{0.15 + (p/max_p)*0.7})"
+            else:       bg = f"rgba(245,158,11,{0.15 + (p/max_p)*0.7})"
             pct = f"{p*100:.1f}%"
-            html += f'<td><div class="matrix-cell" style="background:{bg};color:white">{pct}</div></td>'
+            html += f'<td><div class="matrix-cell" style="background:{bg};color:#ffffff;border:1px solid rgba(255,255,255,0.05);">{pct}</div></td>'
         html += '</tr>'
     html += '</table></div>'
     return html
@@ -790,35 +763,33 @@ def score_matrix_html(pm, max_show=5):
 # ─────────────────────────────────────────────────────────────────
 # APP LAYOUT
 # ─────────────────────────────────────────────────────────────────
-# HERO
+# HERO - Redesigned with custom Flexbox container and 2026 dynamic theme colors
 st.markdown("""
-<div class="hero">
-  <div style="display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap">
-    <div>
-      <div class="hero-title">⚽ WC 2026 PREDICTOR</div>
-      <div class="hero-sub">FIFA World Cup · USA / Canada / Mexico · 48 Teams · 104 Matches</div>
-      <div style="margin-top:0.6rem;display:flex;gap:0.5rem;flex-wrap:wrap">
-        <span class="hero-badge">⚡ Poisson + Elo + Dixon-Coles</span>
-        <span class="hero-badge" style="background:#0a2418;border-color:#f0b429;color:#f0b429">🏆 June 11 – July 19, 2026</span>
-        <span class="hero-badge" style="background:#0a1830;border-color:#3182ce;color:#90cdf4">🌎 3 Host Nations</span>
+<div class="hero-container">
+  <div class="hero-flex">
+    <div class="hero-title-group">
+      <h1>🏆 WORLD CUP 2026 PREDICTOR</h1>
+      <div class="hero-subtitle">United States · Canada · Mexico • 48 Nations • 104 Matches</div>
+      <div class="badge-row">
+        <span class="wc-badge" style="background:rgba(79,70,229,0.2); color:#a5b4fc; border-color:rgba(79,70,229,0.4);">⚡ Poisson Engine</span>
+        <span class="wc-badge" style="background:rgba(6,182,212,0.2); color:#22d3ee; border-color:rgba(6,182,212,0.4);">📊 Dixon-Coles Calibrated</span>
+        <span class="wc-badge" style="background:rgba(244,63,94,0.2); color:#fca5a5; border-color:rgba(244,63,94,0.4);">⚽ Live Elo Weights</span>
       </div>
     </div>
   </div>
 </div>
 """, unsafe_allow_html=True)
 
-# Load model
 with st.spinner("Training prediction model on 49,000+ historical matches…"):
     elo_data, atk, dfn, frm, LAH, LAA = load_and_train()
 
-# TABS
 tab1, tab2, tab3 = st.tabs(["🆚  MATCH PREDICTOR", "📋  FULL TOURNAMENT", "⚙️  MODEL INFO"])
 
 # ═══════════════════════════════════════════════════════════════════
 # TAB 1 — MATCH PREDICTOR
 # ═══════════════════════════════════════════════════════════════════
 with tab1:
-    st.markdown('<div class="section-label">Select any two teams — WC 2026 nations listed first</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-label">Fixture Setup</div>', unsafe_allow_html=True)
 
     col_h, col_vs, col_a = st.columns([5, 1, 5])
 
@@ -827,7 +798,7 @@ with tab1:
                             index=WC_TEAMS.index("Argentina"), key="home")
     with col_vs:
         st.markdown("<br><br>", unsafe_allow_html=True)
-        st.markdown('<div style="text-align:center;font-family:\'Bebas Neue\',sans-serif;font-size:1.8rem;color:#7aab8e">VS</div>', unsafe_allow_html=True)
+        st.markdown('<div style="text-align:center;font-family:\'Space Grotesk\',sans-serif;font-size:1.3rem;font-weight:700;color:var(--text-muted)">VS</div>', unsafe_allow_html=True)
     with col_a:
         away_default = WC_TEAMS.index("France")
         away = st.selectbox("✈️ Away / Team 2", WC_TEAMS,
@@ -835,13 +806,14 @@ with tab1:
 
     col_ko, col_btn, _ = st.columns([2, 2, 3])
     with col_ko:
-        is_ko = st.toggle("Knockout (no draw)", value=False)
+        st.markdown("<br>", unsafe_allow_html=True)
+        is_ko = st.toggle("Knockout Stage (Force Winner via Elo)", value=False)
     with col_btn:
-        predict_clicked = st.button("⚽ PREDICT MATCH", use_container_width=True)
+        st.markdown("<br>", unsafe_allow_html=True)
+        predict_clicked = st.button("⚡ SIMULATE MATCH", use_container_width=True)
 
     st.markdown("---")
 
-    # Check for separator selection
     _sep = "────────────────"
     if home == _sep or away == _sep:
         st.warning("⚠️ Please select a valid team (not the separator line).")
@@ -849,15 +821,16 @@ with tab1:
         st.warning("⚠️ Please select two different teams.")
     elif not predict_clicked and "last_prediction" not in st.session_state:
         st.markdown("""
-        <div style="text-align:center;padding:3rem 0;color:#7aab8e">
-          <div style="font-size:3rem;margin-bottom:0.5rem">⚽</div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:2px;color:#1a7a3f">
-            Select two teams and press PREDICT MATCH</div>
-          <div style="font-size:0.85rem;margin-top:0.5rem;color:#4a7a5a">
-            Powered by Poisson + Elo + Dixon-Coles model trained on 49,000+ matches</div>
+        <div style="text-align:center;padding:4rem 0;color:var(--text-muted)">
+          <div style="font-size:3.5rem;margin-bottom:1rem">⚽</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:#fff;letter-spacing:-0.5px">
+            Configure Selection Above & Run Simulation
+          </div>
+          <div style="font-size:0.85rem;margin-top:0.4rem;color:var(--text-muted)">
+            Calculations compute live scoreline probabilities using adjusted scoring dynamics.
+          </div>
         </div>""", unsafe_allow_html=True)
     else:
-        # Run prediction (either button just clicked, or re-render with cached result)
         if predict_clicked:
             st.session_state["last_prediction"] = (home, away, is_ko)
         pred_home, pred_away, pred_ko = st.session_state.get("last_prediction", (home, away, is_ko))
@@ -866,65 +839,59 @@ with tab1:
         flag_h = FLAG_MAP.get(pred_home, "🏳")
         flag_a = FLAG_MAP.get(pred_away, "🏳")
 
-        # Score display
-        c1, c2, c3 = st.columns([4, 1, 4])
-        with c1:
-            st.markdown(f"""
-            <div class="score-box">
-              <div class="team-name-display">{flag_h} {pred_home}</div>
-              <div class="elo-badge">Elo {res['elo_home']}</div>
-              <div class="score-number">{res['home_goals']}</div>
-              <div class="xg-label">Expected Goals</div>
-              <div class="xg-value">{res['lam_h']}</div>
-            </div>""", unsafe_allow_html=True)
-        with c2:
-            st.markdown("<br><br><br>", unsafe_allow_html=True)
-            st.markdown('<div style="text-align:center;font-family:\'Bebas Neue\',sans-serif;font-size:2.5rem;color:#1a7a3f;margin-top:1.5rem">:</div>', unsafe_allow_html=True)
-        with c3:
-            st.markdown(f"""
-            <div class="score-box">
-              <div class="team-name-display">{flag_a} {pred_away}</div>
-              <div class="elo-badge">Elo {res['elo_away']}</div>
-              <div class="score-number">{res['away_goals']}</div>
-              <div class="xg-label">Expected Goals</div>
-              <div class="xg-value">{res['lam_a']}</div>
-            </div>""", unsafe_allow_html=True)
+        # Re-engineered clean Flexbox score view layout
+        st.markdown(f"""
+        <div class="score-flex-wrapper">
+            <div class="team-card">
+                <div class="team-name">{flag_h} {pred_home}</div>
+                <div class="stat-sub-label" style="font-weight:600;">Elo {res['elo_home']}</div>
+                <div class="score-number">{res['home_goals']}</div>
+                <div class="stat-sub-label">Expected Goals</div>
+                <div class="stat-sub-value">{res['lam_h']}</div>
+            </div>
+            <div class="vs-divider">:</div>
+            <div class="team-card">
+                <div class="team-name">{flag_a} {pred_away}</div>
+                <div class="stat-sub-label" style="font-weight:600;">Elo {res['elo_away']}</div>
+                <div class="score-number">{res['away_goals']}</div>
+                <div class="stat-sub-label">Expected Goals</div>
+                <div class="stat-sub-value">{res['lam_a']}</div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
-        # Winner banner
         if res["result"] == "home":
             banner_cls = "winner-home"
-            banner_txt = f"🏆 {pred_home} wins"
+            banner_txt = f"🎯 Outcome Prediction: {pred_home} Victory"
         elif res["result"] == "away":
             banner_cls = "winner-away"
-            banner_txt = f"🏆 {pred_away} wins"
+            banner_txt = f"🎯 Outcome Prediction: {pred_away} Victory"
         else:
             banner_cls = "winner-draw"
-            banner_txt = "⚖️ Draw"
+            banner_txt = "🎯 Outcome Prediction: Match Draw"
         st.markdown(f'<div class="winner-banner {banner_cls}">{banner_txt}</div>', unsafe_allow_html=True)
 
-        # Stats row
+        # Refined pills flexbox row
         st.markdown(f"""
-        <div class="stat-grid">
-          <div class="stat-pill"><span class="stat-pill-value">{res['corners']}</span><span class="stat-pill-label">Corners</span></div>
-          <div class="stat-pill"><span class="stat-pill-value">{res['yellows']}</span><span class="stat-pill-label">Yellow Cards</span></div>
-          <div class="stat-pill"><span class="stat-pill-value">{res['red']}</span><span class="stat-pill-label">Red Cards</span></div>
-          <div class="stat-pill"><span class="stat-pill-value">{res['p_home']}%</span><span class="stat-pill-label">Home Win</span></div>
-          <div class="stat-pill"><span class="stat-pill-value">{res['p_draw']}%</span><span class="stat-pill-label">Draw</span></div>
-          <div class="stat-pill"><span class="stat-pill-value">{res['p_away']}%</span><span class="stat-pill-label">Away Win</span></div>
+        <div class="pills-container">
+          <div class="metric-pill"><span class="metric-pill-val">{res['corners']}</span><span class="metric-pill-lbl">Est. Corners</span></div>
+          <div class="metric-pill"><span class="metric-pill-val">{res['yellows']}</span><span class="metric-pill-lbl">Yellow Cards</span></div>
+          <div class="metric-pill"><span class="metric-pill-val">{res['red']}</span><span class="metric-pill-lbl">Red Cards</span></div>
+          <div class="metric-pill"><span class="metric-pill-val" style="color:var(--wc-cyan);">{res['p_home']}%</span><span class="metric-pill-lbl">Home Win %</span></div>
+          <div class="metric-pill"><span class="metric-pill-val" style="color:var(--text-muted);">{res['p_draw']}%</span><span class="metric-pill-lbl">Draw %</span></div>
+          <div class="metric-pill"><span class="metric-pill-val" style="color:var(--wc-pink);">{res['p_away']}%</span><span class="metric-pill-lbl">Away Win %</span></div>
         </div>""", unsafe_allow_html=True)
 
         st.markdown("<br>", unsafe_allow_html=True)
 
-        # Deep analysis section
-        col_prob, col_matrix = st.columns([2, 3])
+        col_prob, col_matrix = st.columns([1, 1])
         with col_prob:
-            st.markdown('<div class="section-label">Win probabilities</div>', unsafe_allow_html=True)
+            st.markdown('<div class="section-label">Probability Distribution</div>', unsafe_allow_html=True)
             st.markdown(prob_bar_html(res["p_home"], res["p_draw"], res["p_away"]),
                         unsafe_allow_html=True)
 
         with col_matrix:
-            st.markdown('<div class="section-label">Score probability matrix (5×5)</div>', unsafe_allow_html=True)
-            st.markdown('<div style="font-size:0.72rem;color:#7aab8e;margin-bottom:0.5rem">Rows = home goals · Columns = away goals · 🟢 home win · 🔴 away win · 🟡 draw</div>', unsafe_allow_html=True)
+            st.markdown('<div class="section-label">Exact Scoreline Matrix (5×5)</div>', unsafe_allow_html=True)
             st.markdown(score_matrix_html(res["prob_matrix"]), unsafe_allow_html=True)
 
 
@@ -937,7 +904,7 @@ with tab2:
     if gp_df is None:
         st.info("📂 Place `group_match.csv` and `knokout_match.csv` in the app folder to see full tournament predictions.")
     else:
-        sub1, sub2 = st.tabs(["⚽ Group Stage (72 matches)", "🏆 Knockout Stage (32 matches)"])
+        sub1, sub2 = st.tabs(["📊 Group Stage Schedule", "👑 Knockout Tree Predictions"])
 
         with sub1:
             display_gp = gp_df[[
@@ -962,7 +929,7 @@ with tab2:
             display_kp = kp_df[[
                 "match_id","round","home_team_resolved","away_team_resolved",
                 "predicted_home_goals","predicted_away_goals",
-                "winning_team","corners","yellow_cards","red_cards","multiplier"
+                "winning_team","corners","yellow_cards","red_cards"
             ]].rename(columns={
                 "home_team_resolved":"Home","away_team_resolved":"Away",
                 "predicted_home_goals":"Home G","predicted_away_goals":"Away G",
@@ -973,21 +940,23 @@ with tab2:
             st.download_button("⬇️ Download knockout_predictions.csv", csv2,
                                "knockout_predictions.csv", "text/csv")
 
-            # Final + champion
             final = kp_df[kp_df["round"]=="Final"]
             if len(final):
                 f = final.iloc[0]
                 champ = f["home_team_resolved"] if f["winning_team"]=="home" else f["away_team_resolved"]
                 runner = f["away_team_resolved"] if f["winning_team"]=="home" else f["home_team_resolved"]
                 st.markdown(f"""
-                <div style="background:linear-gradient(135deg,#0f3d1e,#001a0a);border:1px solid #f0b429;
-                     border-radius:12px;padding:1.5rem;text-align:center;margin-top:1rem">
-                  <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#7aab8e;letter-spacing:3px">
-                    PREDICTED CHAMPION</div>
-                  <div style="font-family:'Bebas Neue',sans-serif;font-size:3rem;color:#f0b429;margin:0.3rem 0">
-                    🏆 {FLAG_MAP.get(champ,'🏳')} {champ}</div>
-                  <div style="color:#7aab8e;font-size:0.85rem">Final vs {runner} · 
-                    {f['predicted_home_goals']}-{f['predicted_away_goals']}</div>
+                <div style="background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%); border: 1px solid rgba(245,158,11,0.3);
+                     border-radius:20px; padding:2rem; text-align:center; margin-top:2rem; box-shadow:0 15px 30px rgba(0,0,0,0.4);">
+                  <div style="font-family:'Space Grotesk',sans-serif; font-size:0.85rem; color:var(--wc-gold); letter-spacing:2px; font-weight:700; text-transform:uppercase;">
+                    Simulated Tournament Champion
+                  </div>
+                  <div style="font-family:'Space Grotesk',sans-serif; font-size:3.5rem; font-weight:700; color:#fff; margin:0.5rem 0;">
+                    🏆 {FLAG_MAP.get(champ,'🏳')} {champ}
+                  </div>
+                  <div style="color:var(--text-muted); font-size:0.95rem;">
+                    Defeated {runner} in the final matchup • Projected Scoreline: {f['predicted_home_goals']}-{f['predicted_away_goals']}
+                  </div>
                 </div>""", unsafe_allow_html=True)
 
 
@@ -996,71 +965,63 @@ with tab2:
 # ═══════════════════════════════════════════════════════════════════
 with tab3:
     st.markdown("""
-    <div style="max-width:720px">
+    <div style="max-width:800px">
+        <div class="section-label">Engine Mechanics</div>
+        <p style="color:var(--text-primary); line-height:1.75; font-size:0.95rem;">
+            This prediction simulator applies a multi-layered <strong style="color:var(--wc-cyan)">Poisson regression structure</strong> balanced against long-term operational metrics:
+        </p>
 
-    <div class="section-label">How the model works</div>
+        <table style="width:100%; border-collapse:collapse; font-size:0.9rem; margin-top:1.5rem;">
+          <tr style="border-bottom:1px solid var(--panel-border)">
+            <td style="padding:1rem 0.5rem; color:var(--wc-cyan); font-weight:700; width:180px; font-family:'Space Grotesk',sans-serif;">Elo Tracking</td>
+            <td style="padding:1rem 0.5rem; color:var(--text-muted)">Evaluated from historical data. Applies specialized structural weights reflecting tournament prominence alongside scale metrics matching match point adjustments.</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--panel-border)">
+            <td style="padding:1rem 0.5rem; color:var(--wc-cyan); font-weight:700; font-family:'Space Grotesk',sans-serif;">Poisson Distribution</td>
+            <td style="padding:1rem 0.5rem; color:var(--text-muted)">Cross-references calculated operational attack metrics against defense thresholds to forecast target probabilities based on World Cup specific neutral constants.</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--panel-border)">
+            <td style="padding:1rem 0.5rem; color:var(--wc-cyan); font-weight:700; font-family:'Space Grotesk',sans-serif;">Dixon-Coles Setting</td>
+            <td style="padding:1rem 0.5rem; color:var(--text-muted)">Compensates for standard distribution variations in low-scoring scenarios by scaling joint matrix configurations ($\rho = -0.10$).</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--panel-border)">
+            <td style="padding:1rem 0.5rem; color:var(--wc-cyan); font-weight:700; font-family:'Space Grotesk',sans-serif;">Time Decay Scaling</td>
+            <td style="padding:1rem 0.5rem; color:var(--text-muted)">Implements exponential reduction models ($\lambda = 0.003/\text{day}$) targeting historical importance data to prioritize immediate match tracking.</td>
+          </tr>
+          <tr>
+            <td style="padding:1rem 0.5rem; color:var(--wc-cyan); font-weight:700; font-family:'Space Grotesk',sans-serif;">Form Adjustments</td>
+            <td style="padding:1rem 0.5rem; color:var(--text-muted)">Integrates final structural performance markers across consecutive fixtures while aligning secondary game parameters against championship benchmark data.</td>
+          </tr>
+        </table>
 
-    <p style="color:#e8f5ee;line-height:1.7">
-    This predictor uses a <strong style="color:#f0b429">refined Poisson regression model</strong> with five key components:</p>
-
-    <table style="width:100%;border-collapse:collapse;font-size:0.88rem">
-      <tr style="border-bottom:1px solid #1e4030">
-        <td style="padding:0.6rem;color:#f0b429;font-weight:600;width:160px">Elo Ratings</td>
-        <td style="padding:0.6rem;color:#c8ddd2">Computed from 49,000+ international matches since 2000.
-        Tournament-weighted (WC counts 3× a friendly) with goal-difference multipliers.</td>
-      </tr>
-      <tr style="border-bottom:1px solid #1e4030">
-        <td style="padding:0.6rem;color:#f0b429;font-weight:600">Poisson Goals Model</td>
-        <td style="padding:0.6rem;color:#c8ddd2">Attack × Defense strength per team predicts expected goals.
-        Base rates calibrated specifically to World Cup tournament averages (not all-match averages).</td>
-      </tr>
-      <tr style="border-bottom:1px solid #1e4030">
-        <td style="padding:0.6rem;color:#f0b429;font-weight:600">Dixon-Coles Fix</td>
-        <td style="padding:0.6rem;color:#c8ddd2">Standard Poisson overestimates 1-1 and underestimates 0-0.
-        Dixon-Coles correction (ρ = −0.10) fixes the correlation between low-scoring outcomes.</td>
-      </tr>
-      <tr style="border-bottom:1px solid #1e4030">
-        <td style="padding:0.6rem;color:#f0b429;font-weight:600">Recency Weighting</td>
-        <td style="padding:0.6rem;color:#c8ddd2">Exponential time decay (λ=0.003/day) so recent matches matter more.
-        Combined with tournament importance weights.</td>
-      </tr>
-      <tr>
-        <td style="padding:0.6rem;color:#f0b429;font-weight:600">Form Factor</td>
-        <td style="padding:0.6rem;color:#c8ddd2">Last 5 competitive games give a small ±5% nudge.
-        Corners and cards calibrated to WC 2022 averages (9.5 corners, 3.2 yellows, 0.15 reds).</td>
-      </tr>
-    </table>
-
-    <br>
-    <div class="section-label">Data source</div>
-    <p style="color:#7aab8e;font-size:0.85rem">
-    Historical results: <code style="background:#0a2418;padding:2px 6px;border-radius:4px">martj42/international_results</code> on GitHub — 
-    updated regularly, includes all international fixtures back to 1872.</p>
-
+        <br><br>
+        <div class="section-label">Source Feed</div>
+        <p style="color:var(--text-muted); font-size:0.85rem;">
+            Data sourced from <code style="background:rgba(255,255,255,0.05); padding:3px 8px; border-radius:6px; color:#fff;">martj42/international_results</code> tracking modern structural history logs.
+        </p>
     </div>
     """, unsafe_allow_html=True)
 
 
 # ═══════════════════════════════════════════════════════════════════
-# FOOTER — GitHub Profile
+# FOOTER — Flexbox Profile Card
 # ═══════════════════════════════════════════════════════════════════
 st.markdown("""
-<div style="margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1e4030;
-     display:flex;align-items:center;justify-content:center;gap:0.75rem">
+<div style="margin-top:5rem; padding-top:2rem; border-top:1px solid var(--panel-border);
+     display:flex; align-items:center; justify-content:center; gap:1rem;">
   <a href="https://github.com/Aditya2022331060" target="_blank"
-     style="display:flex;align-items:center;gap:0.75rem;text-decoration:none;
-            background:#0d2418;border:1px solid #1e4030;border-radius:40px;
-            padding:0.5rem 1.2rem 0.5rem 0.5rem;transition:all 0.2s"
-     onmouseover="this.style.borderColor='#f0b429';this.style.boxShadow='0 0 16px rgba(240,180,41,0.2)'"
-     onmouseout="this.style.borderColor='#1e4030';this.style.boxShadow='none'">
+     style="display:flex; align-items:center; gap:0.85rem; text-decoration:none;
+            background:rgba(30,41,59,0.3); border:1px solid var(--panel-border); border-radius:100px;
+            padding:0.6rem 1.4rem 0.6rem 0.6rem; transition:all 0.2s ease;"
+     onmouseover="this.style.borderColor='rgba(6,182,212,0.5)'; this.style.boxShadow='0 0 20px rgba(6,182,212,0.15)'"
+     onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'; this.style.boxShadow='none'">
     <img src="https://github.com/Aditya2022331060.png?size=40"
-         style="width:36px;height:36px;border-radius:50%;border:2px solid #1a7a3f;object-fit:cover"
+         style="width:40px; height:40px; border-radius:50%; border:2px solid var(--wc-purple); object-fit:cover"
          onerror="this.src='https://avatars.githubusercontent.com/u/Aditya2022331060?v=4'" />
     <div>
-      <div style="color:#e8f5ee;font-weight:600;font-size:0.85rem;line-height:1.2">Aditya</div>
-      <div style="color:#7aab8e;font-size:0.72rem">github.com/Aditya2022331060</div>
+      <div style="color:#fff; font-weight:700; font-size:0.85rem; line-height:1.2; font-family:'Space Grotesk',sans-serif;">Aditya</div>
+      <div style="color:var(--text-muted); font-size:0.75rem;">github.com/Aditya2022331060</div>
     </div>
   </a>
-  <span style="color:#4a7a5a;font-size:0.78rem">· Built with ❤️ &amp; Poisson distributions</span>
 </div>
 """, unsafe_allow_html=True)
